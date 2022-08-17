@@ -9,11 +9,11 @@ class UserDAO:
     def get_one(self, uid):
         return self.db_session.query(User).get(uid)
 
-    def get_all_by_query(self, **kwargs):
+    def get_one_by_arguments(self, username, password):
+        return self.db_session.query(User).filter(User.username == username).filter(User.password == password).one()
+
+    def get_all(self):
         stmt = self.db_session.query(User)
-        if kwargs:
-            filters = {getattr(User, field): value for field, value in kwargs.items()}
-            stmt.filter_by(**filters)
         return stmt.all()
 
     def create(self, **kwargs):

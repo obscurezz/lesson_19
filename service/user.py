@@ -20,8 +20,12 @@ class UserService:
     def generate_password_hash(self, password: str) -> str:
         return base64.b64encode(self._generate_password_digest(password)).decode('utf-8')
 
-    def get_all_users(self, **kwargs):
-        return self.dao.get_all_by_query(**kwargs)
+    def get_all_users(self):
+        return self.dao.get_all()
+
+    def get_one_by_arguments(self, username: str, password: str):
+        hashed_password = self.generate_password_hash(password)
+        return self.dao.get_one_by_arguments(username, hashed_password)
 
     def get_one_user(self, user_id: int):
         return self.dao.get_one(user_id)

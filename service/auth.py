@@ -23,7 +23,7 @@ class AuthService:
         return hmac.compare_digest(decoded_digest, hash_digest)
 
     def _generate_tokens(self, username: str, password: str | None, is_refresh: bool = False) -> dict:
-        user = self.user_service.get_all_users(username=username)
+        user = self.user_service.get_one_by_arguments(username=username, password=password)
         if not user:
             abort(404)
 
